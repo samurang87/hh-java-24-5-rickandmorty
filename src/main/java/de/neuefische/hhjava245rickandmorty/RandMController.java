@@ -22,4 +22,9 @@ public class RandMController {
     public RandMCharacter getCharacterById(@PathVariable String id) {
         return rms.getCharacterById(id);
     }
+
+    @GetMapping("/species-statistic")
+    public long getSpeciesStatistic(@RequestParam String species) {
+        return rms.getSpeciesStatistic(species);
+    }
 }

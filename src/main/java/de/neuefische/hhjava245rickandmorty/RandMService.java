@@ -28,4 +28,9 @@ public class RandMService {
         RandMCharResponse response = randmClient.get().uri("?status=" + status).retrieve().body(RandMCharResponse.class);
         return Optional.ofNullable(response).map(RandMCharResponse::results);
     }
+
+    public long getSpeciesStatistic(String species) {
+        Optional<List<RandMCharacter>> characters = getAllCharactersByStatus("alive");
+        return characters.map(List::size).orElse(0);
+    }
 }
