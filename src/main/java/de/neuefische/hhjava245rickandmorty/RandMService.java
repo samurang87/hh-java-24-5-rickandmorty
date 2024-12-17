@@ -19,4 +19,8 @@ public class RandMService {
         RandMCharResponse response = randmClient.get().retrieve().body(RandMCharResponse.class);
         return Optional.ofNullable(response).map(RandMCharResponse::results);
     }
+
+    public RandMCharacter getCharacterById(String id) {
+        return randmClient.get().uri("/" + id).retrieve().body(RandMCharacter.class);
+    }
 }
