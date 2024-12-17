@@ -23,4 +23,9 @@ public class RandMService {
     public RandMCharacter getCharacterById(String id) {
         return randmClient.get().uri("/" + id).retrieve().body(RandMCharacter.class);
     }
+
+    public Optional<List<RandMCharacter>> getAllCharactersByStatus(String status) {
+        RandMCharResponse response = randmClient.get().uri("?status=" + status).retrieve().body(RandMCharResponse.class);
+        return Optional.ofNullable(response).map(RandMCharResponse::results);
+    }
 }
