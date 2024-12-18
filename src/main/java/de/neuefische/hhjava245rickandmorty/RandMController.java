@@ -13,9 +13,9 @@ public class RandMController {
     @GetMapping("/characters")
     public RandMCharResponse getCharacters(@RequestParam(required = false) String status) {
         if (status != null) {
-            return new RandMCharResponse(rms.getAllCharactersByStatus(status).orElseThrow());
+            return new RandMCharResponse(rms.getAllCharactersByStatus(status));
         }
-        return new RandMCharResponse(rms.getAllCharacters().orElseThrow());
+        return new RandMCharResponse(rms.getAllCharacters());
     }
 
     @GetMapping("characters/{id}")

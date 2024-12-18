@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RandMService {
@@ -15,22 +14,24 @@ public class RandMService {
         this.randmClient = restClientBuilder.baseUrl("https://rickandmortyapi.com/api/character").build();
     }
 
-    public Optional<List<RandMCharacter>> getAllCharacters() {
+    public List<RandMCharacter> getAllCharacters() {
         RandMCharResponse response = randmClient.get().retrieve().body(RandMCharResponse.class);
-        return Optional.ofNullable(response).map(RandMCharResponse::results);
+        return response != null && response.results() != null ? response.results() : List.of();
     }
 
     public RandMCharacter getCharacterById(String id) {
         return randmClient.get().uri("/" + id).retrieve().body(RandMCharacter.class);
     }
 
-    public Optional<List<RandMCharacter>> getAllCharactersByStatus(String status) {
+    public List<RandMCharacter> getAllCharactersByStatus(String status) {
         RandMCharResponse response = randmClient.get().uri("?status=" + status).retrieve().body(RandMCharResponse.class);
-        return Optional.ofNullable(response).map(RandMCharResponse::results);
+        return response != null && response.results() != null ? response.results() : List.of();
     }
 
     public long getSpeciesStatistic(String species) {
-        Optional<List<RandMCharacter>> characters = getAllCharactersByStatus("alive");
-        return characters.map(List::size).orElse(0);
+        List<RandMCharacter> characters = getAllCharactersByStatus("Alive");
+        return characters.stream()
+                .filter(ch -> ch.species().equals(species))
+                .count();
     }
 }
