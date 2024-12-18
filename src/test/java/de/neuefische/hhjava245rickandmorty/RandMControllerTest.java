@@ -80,4 +80,42 @@ class RandMControllerTest {
                     """));
     }
 
+    @Test
+    void getSpeciesStatistic() throws Exception {
+        ms.expect(requestTo("https://rickandmortyapi.com/api/character?status=Alive"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess("""
+                                {
+                                    "info": {
+                                        "count": 32,
+                                        "pages": 42
+                                    },
+                                    "results": [
+                                        {
+                                            "id": 1,
+                                            "name": "Rick Sanchez",
+                                            "status": "Alive",
+                                            "species": "Human"
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "Rick Sanchez",
+                                            "status": "Alive",
+                                            "species": "Human"
+                                        },
+                                        {
+                                            "id": 3,
+                                            "name": "Rick Sanchez",
+                                            "status": "Alive",
+                                            "species": "Human"
+                                        }
+                                    ]
+                                }
+                                """,
+                        MediaType.APPLICATION_JSON));
+
+        mm.perform(get("/api/species-statistic?species=Human"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("3"));
+    }
 }
