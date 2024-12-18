@@ -57,4 +57,27 @@ class RandMControllerTest {
                         """));
     }
 
+    @Test
+    void getCharacterById() throws Exception {
+        ms.expect(requestTo("https://rickandmortyapi.com/api/character/3"))
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(withSuccess("""
+                    {
+                        "id": "3",
+                        "name": "Summer Smith",
+                        "status": "Alive",
+                        "species": "Human",
+                        "type": "",
+                        "gender": "Female"
+                    }
+                    """,
+                        MediaType.APPLICATION_JSON));
+
+        mm.perform(get("/api/characters/3"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                    {"id":"3","name":"Summer Smith","species":"Human"}
+                    """));
+    }
+
 }
