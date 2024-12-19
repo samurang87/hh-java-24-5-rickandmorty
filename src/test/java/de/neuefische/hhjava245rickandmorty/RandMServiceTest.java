@@ -29,21 +29,21 @@ class RandMServiceTest {
         ms.expect(requestTo("https://rickandmortyapi.com/api/character"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess("""
-                        {
-                            "info": {
-                                "count": 32,
-                                "pages": 42
-                            },
-                            "results": [
                                 {
-                                    "id": 1,
-                                    "name": "Rick Sanchez",
-                                    "status": "Alive",
-                                    "species": "Human"
+                                    "info": {
+                                        "count": 32,
+                                        "pages": 42
+                                    },
+                                    "results": [
+                                        {
+                                            "id": 1,
+                                            "name": "Rick Sanchez",
+                                            "status": "Alive",
+                                            "species": "Human"
+                                        }
+                                    ]
                                 }
-                            ]
-                        }
-                        """,
+                                """,
                         MediaType.APPLICATION_JSON));
 
         var result = rms.getAllCharacters();
@@ -57,13 +57,13 @@ class RandMServiceTest {
         ms.expect(requestTo("https://rickandmortyapi.com/api/character/1"))
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess("""
-                        {
-                            "id": 1,
-                            "name": "Rick Sanchez",
-                            "status": "Alive",
-                            "species": "Human"
-                        }
-                        """,
+                                {
+                                    "id": 1,
+                                    "name": "Rick Sanchez",
+                                    "status": "Alive",
+                                    "species": "Human"
+                                }
+                                """,
                         MediaType.APPLICATION_JSON));
 
         var result = rms.getCharacterById("1");
@@ -134,7 +134,7 @@ class RandMServiceTest {
                                 """,
                         MediaType.APPLICATION_JSON));
 
-            var result = rms.getSpeciesStatistic("Human");
-            Assertions.assertEquals(2, result);
+        var result = rms.getSpeciesStatistic("Human");
+        Assertions.assertEquals(2, result);
     }
 }
